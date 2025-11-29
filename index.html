@@ -1,45 +1,127 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Web Simpel</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Web Simpel ini buatan riziz kalok gak percaya sini by one</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f2f2f2;
-      text-align: center;
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffff00;
+      --text:#E312DD;
+      --accent:#4a90e2;
     }
-    header {
-      background: #4a90e2;
-      color: white;
-      padding: 20px 0;
-      font-size: 24px;
-      font-weight: bold;
+    body{
+      margin:0;
+      font-family:system-ui,Arial,Segoe UI;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      min-height:100vh;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
     }
-    .content {
-      padding: 40px 20px;
+    .card{
+      background:var(--card);
+      padding:28px;
+      border-radius:12px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.08);
+      width:100%;
+      max-width:540px;
+      text-align:center;
     }
-    .card {
-      background: blue;
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    h1{margin:0 0 8px;}
+    p{margin:0 0 18px;color:#555;}
+    .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:14px;}
+    button{
+      border:0;
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 4px 10px rgba(74,144,226,0.12);
     }
+    .btn-primary{background:var(--accent);color:white;}
+    .btn-outline{background:transparent;border:2px solid #ddd;color:var(--text);box-shadow:none;}
+    .btn-danger{background:#e94b4b;color:white;}
+    .hidden{display:none;}
+    #demoText{font-size:18px;margin:10px 0;padding:10px;border-radius:8px;background:#f3f6fb;}
+    /* dark mode helper */
+    .dark{ --bg:#0f1720; --card:#0b1220; --text:#e6eef8; --accent:#7aa7ff }
   </style>
 </head>
 <body>
-  <header>Web Simpel Saya</header>
-  <div class="content">
-    <div class="card">
-      <h2>Halo! 👋</h2>
-      <p style="color: #BFBFBF;">Ini adalah website simpel yang bisa kamu upload ke GitHub Pages.</p>
-      <p style="color: #FFFF00;">Edit teks ini sesuka kamu!</p>
+  <div class="card" id="page">
+    <h1>Web Simpel — Tombol</h1>
+    <p>Contoh tombol interaktif: ubah warna, sembunyikan, atau tampilkan pesan.</p>
+
+    <div id="demoText">Ini teks contoh — klik tombol untuk mengubahnya.</div>
+
+    <div class="row">
+      <button class="btn-primary" onclick="ubahWarna('#e94b4b')">Warna Merah</button>
+      <button class="btn-primary" onclick="ubahWarna('#2f9f46')">Warna Hijau</button>
+      <button class="btn-primary" onclick="ubahWarna('#4a90e2')">Warna Biru</button>
+      <button class="btn-outline" onclick="resetWarna()">Reset</button>
     </div>
+
+    <div class="row">
+      <button class="btn-primary" onclick="toggleText()">Sembunyikan / Tampilkan</button>
+      <button class="btn-outline" onclick="salinTeks()">Salin Teks</button>
+      <button class="btn-danger" onclick="toast('Pesan darurat terkirim!')">Tombol Merah</button>
+    </div>
+
+    <div class="row">
+      <button class="btn-outline" onclick="toggleDark()">Toggle Dark</button>
+      <a href="https://github.com" target="_blank"><button class="btn-outline">Ke GitHub</button></a>
+    </div>
+
+    <div id="toast" class="hidden" style="margin-top:12px;padding:10px;border-radius:8px;background:#222;color:#fff;display:inline-block;"></div>
   </div>
+
+  <script>
+    const demo = document.getElementById('demoText');
+    const page = document.getElementById('page');
+    const toastEl = document.getElementById('toast');
+
+    function ubahWarna(color){
+      demo.style.background = color + '22'; // sedikit transparan
+      demo.style.color = color;
+    }
+
+    function resetWarna(){
+      demo.style.background = '';
+      demo.style.color = '';
+    }
+
+    function toggleText(){
+      demo.classList.toggle('hidden');
+    }
+
+    function salinTeks(){
+      const teks = demo.innerText || '';
+      navigator.clipboard?.writeText(teks).then(() => {
+        toast('Teks disalin ke clipboard');
+      }).catch(()=> {
+        toast('Tidak bisa menyalin (izin ditolak)');
+      });
+    }
+
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.remove('hidden');
+      // show then hide
+      toastEl.style.opacity = '1';
+      setTimeout(()=> {
+        toastEl.style.opacity = '0';
+        setTimeout(()=> toastEl.classList.add('hidden'), 500);
+      }, 1500);
+    }
+
+    function toggleDark(){
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
 </body>
 </html>
+
